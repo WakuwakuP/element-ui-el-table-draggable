@@ -10,6 +10,7 @@
 import sortable from 'sortablejs';
 
 export default {
+  name: 'SortableElTable',
   props: {
     handle: {
       type: String,
