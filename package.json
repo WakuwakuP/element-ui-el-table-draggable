@@ -1,6 +1,6 @@
 {
   "name": "element-ui-el-table-draggable",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Make 'el-table' of 'element UI' sortable.",
   "main": "dist/SortableElTable.umd.js",
   "module": "dist/SortableElTable.esm.js",
