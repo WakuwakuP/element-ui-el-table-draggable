@@ -28,6 +28,6 @@ new Vue({
 </el-table-draggable>
 ```
 
-Contribution
+## Contribution
 
 Please make sure to read the contributing guide (日本語 | English) before making a pull request.
