@@ -36,6 +36,7 @@
     "vue-template-compiler": "^2.5.16"
   },
   "dependencies": {
-    "sortablejs": "^1.8.0-rc1"
+    "sortablejs": "^1.8.0-rc1",
+    "vue-template-validator": "^1.1.5"
   }
 }
