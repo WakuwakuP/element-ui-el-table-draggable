@@ -28,6 +28,40 @@ new Vue({
 </el-table-draggable>
 ```
 
+## Options
+
+### handle
+
+Make a draggable part.
+You can drag only the specified class.
+
+```html
+<el-table-draggable handle=".handle">
+  <el-table>
+    <el-table-column>
+      <template slot-scope="scope">
+        <div class="handle">
+          handle
+        </div>
+      <template>
+    </el-table-column>
+    ......
+  </el-table>
+</el-table-draggable>
+```
+
+### animate
+
+Specify animation speed (ms).
+
+```html
+<el-table-draggable animate="300">
+  <el-table>
+    ......
+  </el-table>
+</el-table-draggable>
+```
+
 ## Contribution
 
 Please make sure to read the contributing guide (日本語 | English) before making a pull request.

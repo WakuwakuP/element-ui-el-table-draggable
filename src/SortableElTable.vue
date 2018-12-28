@@ -16,6 +16,10 @@ export default {
       type: String,
       default: '',
     },
+    animate: {
+      type: Number,
+      default: 100,
+    }
   },
   data() {
     return {
@@ -27,7 +31,7 @@ export default {
       const table = this.$children[0].$el.querySelector('.el-table__body-wrapper tbody');
       sortable.create(table, {
         handle: this.handle,
-        animation: 150,
+        animation: this.animate,
         onEnd: ({ newIndex, oldIndex }) => {
           this.keepWrapperHeight(true);
           this.tableKey = Math.random();
