@@ -15,6 +15,10 @@
         type: String,
         default: '',
       },
+      animate: {
+        type: Number,
+        default: 100,
+      }
     },
     data: function data() {
       return {
@@ -28,7 +32,7 @@
         var table = this.$children[0].$el.querySelector('.el-table__body-wrapper tbody');
         sortable.create(table, {
           handle: this.handle,
-          animation: 150,
+          animation: this.animate,
           onEnd: function (ref) {
             var newIndex = ref.newIndex;
             var oldIndex = ref.oldIndex;
