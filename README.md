@@ -64,4 +64,4 @@ Specify animation speed (ms).
 
 ## Contribution
 
-Please make sure to read the contributing guide (日本語 | English) before making a pull request.
+Please make sure to read the contributing guide ([日本語](CONTRIBUTING-jp.md) | [English](CONTRIBUTING.md)) before making a pull request.
