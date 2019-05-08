@@ -11,7 +11,7 @@ defaults: &defaults
 
 jobs:
   build:
-    <<: *defaults  
+    <<: *defaults
     steps:
       - checkout
 
@@ -44,7 +44,7 @@ jobs:
       - run:
           name: Publish package
           command: npm publish
-            
+
 workflows:
   version: 2
   test-deploy:
@@ -60,4 +60,4 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*/
+              only: master
