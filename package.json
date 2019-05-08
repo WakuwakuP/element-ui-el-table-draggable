@@ -1,6 +1,6 @@
 {
   "name": "element-ui-el-table-draggable",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Make 'el-table' of 'element UI' sortable.",
   "main": "dist/SortableElTable.umd.js",
   "module": "dist/SortableElTable.esm.js",
@@ -29,10 +29,9 @@
   },
   "homepage": "https://github.com/WakuwakuP/element-ui-el-table-draggable#readme",
   "devDependencies": {
-    "rollup": "^1.11.3",
-    "rollup-plugin-buble": "^0.19.6",
-    "rollup-plugin-commonjs": "^9.3.4",
-    "rollup-plugin-vue": "^5.0.0",
+    "rollup": "^0.57.1",
+    "rollup-plugin-buble": "^0.19.2",
+    "rollup-plugin-vue": "^3.0.0",
     "tar": "^4.4.8",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10",
