@@ -10,7 +10,7 @@ defaults: &defaults
     - image: circleci/node:10.15.3
 
 jobs:
-  test:
+  build:
     <<: *defaults  
     steps:
       - checkout
@@ -23,8 +23,8 @@ jobs:
 
       - run: npm install
       - run:
-          name: Run tests
-          command: npm test
+          name: Run build
+          command: npm build
 
       - save_cache:
           paths:
@@ -50,7 +50,7 @@ workflows:
   version: 2
   test-deploy:
     jobs:
-      - test:
+      - build:
           filters:
             tags:
               only: /^v.*/
