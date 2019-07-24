@@ -1,5 +1,7 @@
 # element-ui-el-table-draggable
 
+[![CircleCI](https://circleci.com/gh/WakuwakuP/element-ui-el-table-draggable.svg?style=svg)](https://circleci.com/gh/WakuwakuP/element-ui-el-table-draggable)
+
 Make 'el-table' of 'element UI' sortable.
 
 ## Installation
