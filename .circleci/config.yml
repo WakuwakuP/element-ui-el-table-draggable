@@ -21,13 +21,31 @@ commands:
     steps:
         - run: sudo npm i -g can-npm-publish
 jobs:
+  build: 
+    excutor: default
+    steps:
+      - tool_install
+      - npm_install
+      
+      - restore_cache:
+          keys:
+          - v1-dependencies-build-{{ checksum "package.json" }}
+          - v1-dependencies-build-
+      - run: yarn build
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-build-{{ checksum "package.json" }}
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
   publish:
     executor: default
     steps:
       - tool_install
-      - npm_install
-      - run: yarn build
-      - run: echo //registry.npmjs.org/element-ui-el-table-draggable:_authToken=${NPM_TOKEN} > .npmrc
+      - attach_workspace:
+          at: ~/repo
+      - run: echo //registry.npmjs.org:_authToken=${NPM_TOKEN} > .npmrc
       - run:
           command: |
             if can-npm-publish; then
@@ -40,10 +58,11 @@ workflows:
   version: 2
   publishflow:
     jobs:
+      - build
       - publish:
         context: npm
         requires:
-          - test
+          - build
         filters:
           branches:
             only:
