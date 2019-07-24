@@ -44,7 +44,6 @@ jobs:
             if can-npm-publish; then
                 npm publish
             else
-            else
                 echo "publish skipped"
             fi
 workflows:
