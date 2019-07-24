@@ -1,61 +1,50 @@
 version: 2.1
 executors:
-    default:
-        docker:
-            - image: circleci/node:11
-        working_directory: ~/repo
+  default:
+    docker:
+      - image: circleci/node:11
+    working_directory: ~/repo
 commands:
-    npm_install:
-        steps:
-            - checkout
-            - restore_cache:
-                keys:
-                    - v1-dependencies-{{ checksum "package.json" }}
-                    - v1-dependencies-
-            - run: yarn install
-            - save_cache:
-                paths:
-                    - node_modules
-                key: v1-dependencies-{{ checksum "package.json" }}
-    tool_install:
-        steps:
-            - run: sudo npm i -g can-npm-publish
+  npm_install:
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+              - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+  tool_install:
+    steps:
+        - run: sudo npm i -g can-npm-publish
 jobs:
-    test:
-        executor: default
-        steps:
-            - npm_install
-            - run: yarn test
-    publish:
-        executor: default
-        steps:
-            - tool_install
-            - npm_install
-            - run: yarn build
-            - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
-            - run:
-                command: |
-                    if can-npm-publish; then
-                        npm publish
-                    else
-                    else
-                        echo "publish skipped"
-                    fi
+  publish:
+    executor: default
+    steps:
+      - tool_install
+      - npm_install
+      - run: yarn build
+      - run: echo //registry.npmjs.org/element-ui-el-table-draggable:_authToken=${NPM_TOKEN} > .npmrc
+      - run:
+          command: |
+            if can-npm-publish; then
+                npm publish
+            else
+            else
+                echo "publish skipped"
+            fi
 workflows:
-    version: 2
-    publishflow:
-        jobs:
-            - test:
-                context: npm
-                filters:
-                    branches:
-                        only:
-                            - master
-            - publish:
-                context: npm
-                requires:
-                    - test
-                filters:
-                    branches:
-                        only:
-                            - master
+  version: 2
+  publishflow:
+    jobs:
+      - publish:
+        context: npm
+        requires:
+          - test
+        filters:
+          branches:
+            only:
+              - master
