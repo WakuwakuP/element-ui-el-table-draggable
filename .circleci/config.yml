@@ -22,7 +22,7 @@ commands:
         - run: sudo npm i -g can-npm-publish
 jobs:
   build: 
-    excutor: default
+    executor: default
     steps:
       - tool_install
       - npm_install
