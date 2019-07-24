@@ -1,4 +1,5 @@
 version: 2.1
+
 executors:
   default:
     docker:
@@ -10,8 +11,8 @@ commands:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
       - run: yarn install
       - save_cache:
           paths:
@@ -19,23 +20,15 @@ commands:
           key: v1-dependencies-{{ checksum "package.json" }}
   tool_install:
     steps:
-        - run: sudo npm i -g can-npm-publish
+      - run: sudo npm i -g can-npm-publish
 jobs:
   build: 
     executor: default
     steps:
-      - tool_install
       - npm_install
-      
-      - restore_cache:
-          keys:
-          - v1-dependencies-build-{{ checksum "package.json" }}
-          - v1-dependencies-build-
-      - run: yarn build
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-build-{{ checksum "package.json" }}
+      - run:
+          name: Run build
+          command: npm build
       - persist_to_workspace:
           root: ~/repo
           paths: .
@@ -60,9 +53,9 @@ workflows:
     jobs:
       - build
       - publish:
-        requires:
-          - build
-        filters:
-          branches:
-            only:
-              - master
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
