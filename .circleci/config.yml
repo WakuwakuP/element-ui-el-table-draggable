@@ -1,63 +1,61 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
-version: 2
-
-defaults: &defaults
-  working_directory: ~/repo
-  docker:
-    - image: circleci/node:10.15.3
-
+version: 2.1
+executors:
+    default:
+        docker:
+            - image: circleci/node:11
+        working_directory: ~/repo
+commands:
+    npm_install:
+        steps:
+            - checkout
+            - restore_cache:
+                keys:
+                    - v1-dependencies-{{ checksum "package.json" }}
+                    - v1-dependencies-
+            - run: yarn install
+            - save_cache:
+                paths:
+                    - node_modules
+                key: v1-dependencies-{{ checksum "package.json" }}
+    tool_install:
+        steps:
+            - run: sudo npm i -g can-npm-publish
 jobs:
-  build:
-    <<: *defaults
-    steps:
-      - checkout
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-
-      - run: npm install
-      - run:
-          name: Run build
-          command: npm build
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
-  deploy:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/wakuwakup/element-ui-table-draggable:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
-      - run:
-          name: Publish package
-          command: npm publish
-
+    test:
+        executor: default
+        steps:
+            - npm_install
+            - run: yarn test
+    publish:
+        executor: default
+        steps:
+            - tool_install
+            - npm_install
+            - run: yarn build
+            - run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
+            - run:
+                command: |
+                    if can-npm-publish; then
+                        npm publish
+                    else
+                    else
+                        echo "publish skipped"
+                    fi
 workflows:
-  version: 2
-  test-deploy:
-    jobs:
-      - build:
-          filters:
-            tags:
-              only: /^v.*/
-      - deploy:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              only: master
+    version: 2
+    publishflow:
+        jobs:
+            - test:
+                context: npm
+                filters:
+                    branches:
+                        only:
+                            - master
+            - publish:
+                context: npm
+                requires:
+                    - test
+                filters:
+                    branches:
+                        only:
+                            - master
