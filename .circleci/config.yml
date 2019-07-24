@@ -60,7 +60,6 @@ workflows:
     jobs:
       - build
       - publish:
-        context: npm
         requires:
           - build
         filters:
