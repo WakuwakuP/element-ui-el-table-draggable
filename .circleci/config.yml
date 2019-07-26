@@ -38,7 +38,7 @@ jobs:
       - tool_install
       - attach_workspace:
           at: ~/repo
-      - run: echo //registry.npmjs.org:_authToken=${NPM_TOKEN} > .npmrc
+      - run: echo //registry.npmjs.org:_authToken=$NPM_TOKEN > ~/repo/.npmrc
       - run:
           command: |
             if can-npm-publish; then
