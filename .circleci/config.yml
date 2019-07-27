@@ -28,10 +28,12 @@ jobs:
       - npm_install
       - run:
           name: Run build
-          command: npm build
+          command: npm run build
       - persist_to_workspace:
           root: ~/repo
           paths: .
+      - store_artifacts:
+          path: ~/repo/dist
   publish:
     executor: default
     steps:
