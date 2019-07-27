@@ -38,10 +38,8 @@ jobs:
     executor: default
     steps:
       - tool_install
-      - npm_install
-      - run:
-          name: Run build
-          command: npm run build
+      - store_artifacts:
+          path: dist
       - run:
           name: Publish
           command: |
