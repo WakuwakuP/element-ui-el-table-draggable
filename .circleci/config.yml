@@ -39,7 +39,7 @@ jobs:
     steps:
       - tool_install
       - attach_workspace:
-          at: ~/repo/dist
+          at: dist
       - run:
           name: Publish
           command: |
