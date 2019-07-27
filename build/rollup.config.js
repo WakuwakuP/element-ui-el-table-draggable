@@ -46,7 +46,7 @@ if (!argv.format || argv.format === 'es') {
   const esConfig = {
     ...baseConfig,
     output: {
-      file: 'dist/element-ui-el-table-draggable.esm.js',
+      file: 'dist/SortableElTable.esm.js',
       format: 'esm',
       exports: 'named',
     },
@@ -70,7 +70,7 @@ if (!argv.format || argv.format === 'cjs') {
     external,
     output: {
       compact: true,
-      file: 'dist/element-ui-el-table-draggable.ssr.js',
+      file: 'dist/SortableElTable.ssr.js',
       format: 'cjs',
       name: 'ElementUiElTableDraggable',
       exports: 'named',
@@ -97,7 +97,7 @@ if (!argv.format || argv.format === 'iife') {
     external,
     output: {
       compact: true,
-      file: 'dist/element-ui-el-table-draggable.min.js',
+      file: 'dist/SortableElTable.min.js',
       format: 'iife',
       name: 'ElementUiElTableDraggable',
       exports: 'named',
