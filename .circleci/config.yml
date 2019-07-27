@@ -30,7 +30,7 @@ jobs:
           name: Run build
           command: npm run build
       - persist_to_workspace:
-          root: ~/repo
+          root: dist
           paths: .
       - store_artifacts:
           path: ~/repo/dist
@@ -39,7 +39,7 @@ jobs:
     steps:
       - tool_install
       - attach_workspace:
-          at: ~/repo
+          at: ~/repo/dist
       - run:
           name: Publish
           command: |
