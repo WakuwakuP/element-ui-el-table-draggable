@@ -38,8 +38,10 @@ jobs:
     executor: default
     steps:
       - tool_install
-      - attach_workspace:
-          at: dist
+      - npm_install
+      - run:
+          name: Run build
+          command: npm run build
       - run:
           name: Publish
           command: |
