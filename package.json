@@ -1,14 +1,13 @@
 {
   "name": "element-ui-el-table-draggable",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Make 'el-table' of 'element UI' sortable.",
   "main": "dist/element-ui-el-table-draggable.ssr.js",
   "module": "dist/element-ui-el-table-draggable.esm.js",
   "unpkg": "dist/element-ui-el-table-draggable.min.js",
-  "files": [
-    "dist/*",
-    "src/**/*.vue"
-  ],
+  "browser": {
+    "./sfc": "src/SortableElTable.vue"
+  },
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup --config build/rollup.config.js",
     "build:ssr": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format cjs",
