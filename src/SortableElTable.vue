@@ -34,6 +34,9 @@ export default {
       sortable.create(table, {
         handle: this.handle,
         animation: this.animate,
+        onStart: () => {
+          this.$emit("drag");
+        },
         onEnd: ({ newIndex, oldIndex }) => {
           this.keepWrapperHeight(true);
           this.tableKey = Math.random();
