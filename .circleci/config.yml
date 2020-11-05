@@ -38,8 +38,9 @@ jobs:
     executor: default
     steps:
       - tool_install
-      - store_artifacts:
-          path: dist
+      - checkout
+      - attach_workspace:
+          at: dist
       - run:
           name: Publish
           command: |
