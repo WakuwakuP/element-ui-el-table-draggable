@@ -1,63 +1,63 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
-version: 2
+version: 2.1
 
-defaults: &defaults
-  working_directory: ~/repo
-  docker:
-    - image: circleci/node:10.15.3
-
-jobs:
-  build:
-    <<: *defaults  
+executors:
+  default:
+    docker:
+      - image: circleci/node:11
+    working_directory: ~/repo
+commands:
+  npm_install:
     steps:
       - checkout
-
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
-
-      - run: npm install
-      - run:
-          name: Run build
-          command: npm build
-
+      - run: yarn install
       - save_cache:
           paths:
-            - node_modules
+              - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
-  deploy:
-    <<: *defaults
+  tool_install:
     steps:
-      - attach_workspace:
-          at: ~/repo
+      - run: sudo npm i -g can-npm-publish
+jobs:
+  build: 
+    executor: default
+    steps:
+      - npm_install
       - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+          name: Run build
+          command: npm run build
+      - persist_to_workspace:
+          root: dist
+          paths: .
+      - store_artifacts:
+          path: ~/repo/dist
+  publish:
+    executor: default
+    steps:
+      - tool_install
+      - store_artifacts:
+          path: dist
       - run:
-          name: Publish package
-          command: npm publish
-            
+          name: Publish
+          command: |
+            npm set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+            if can-npm-publish; then
+                npm publish
+            else
+                echo "publish skipped"
+            fi
 workflows:
   version: 2
-  test-deploy:
+  publishflow:
     jobs:
-      - build:
-          filters:
-            tags:
-              only: /^v.*/
-      - deploy:
+      - build
+      - publish:
           requires:
             - build
           filters:
-            tags:
-              only: /^v.*/
             branches:
-              ignore: /.*/
+              only:
+                - master

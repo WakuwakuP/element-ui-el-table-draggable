@@ -7,38 +7,44 @@
 </template>
 
 <script>
-import sortable from 'sortablejs';
+import sortable from "sortablejs";
 
 export default {
-  name: 'SortableElTable',
+  name: "ElementUiElTableDraggable",
   props: {
     handle: {
       type: String,
-      default: '',
+      default: ""
     },
     animate: {
       type: Number,
-      default: 100,
+      default: 100
     }
   },
   data() {
     return {
-      tableKey: 0,
+      tableKey: 0
     };
   },
   methods: {
     makeTableSortAble() {
-      const table = this.$children[0].$el.querySelector('.el-table__body-wrapper tbody');
+      const table = this.$children[0].$el.querySelector(
+        ".el-table__body-wrapper tbody"
+      );
       sortable.create(table, {
         handle: this.handle,
         animation: this.animate,
+        onStart: () => {
+          this.$emit("drag");
+        },
         onEnd: ({ newIndex, oldIndex }) => {
           this.keepWrapperHeight(true);
           this.tableKey = Math.random();
           const arr = this.$children[0].data;
           const targetRow = arr.splice(oldIndex, 1)[0];
           arr.splice(newIndex, 0, targetRow);
-        },
+          this.$emit("drop", { targetObject: targetRow, list: arr });
+        }
       });
     },
     keepWrapperHeight(keep) {
@@ -47,9 +53,9 @@ export default {
       if (keep) {
         wrapper.style.minHeight = `${wrapper.clientHeight}px`;
       } else {
-        wrapper.style.minHeight = 'auto';
+        wrapper.style.minHeight = "auto";
       }
-    },
+    }
   },
   mounted() {
     this.makeTableSortAble();
@@ -60,7 +66,7 @@ export default {
         this.makeTableSortAble();
         this.keepWrapperHeight(false);
       });
-    },
-  },
+    }
+  }
 };
 </script>
