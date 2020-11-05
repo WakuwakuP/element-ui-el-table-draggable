@@ -44,7 +44,7 @@ jobs:
           name: Publish
           command: |
             npm set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-            if can-npm-publish; then
+            if can-npm-publish --verbose; then
                 npm publish
             else
                 echo "publish skipped"
