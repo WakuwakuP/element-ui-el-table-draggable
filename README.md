@@ -45,7 +45,7 @@ You can drag only the specified class.
         <div class="handle">
           handle
         </div>
-      <template>
+      </template>
     </el-table-column>
     ......
   </el-table>
